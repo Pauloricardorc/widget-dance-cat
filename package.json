@@ -1,0 +1,33 @@
+{
+  "name": "audio-cat",
+  "version": "1.0.0",
+  "description": "Mascote animado usando Electron",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build --win -p always",
+    "deploy": "electron-builder build --win -p always"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^28.1.0",
+    "electron-updater": "^6.1.7"
+  },
+  "devDependencies": {
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.audiocat.app",
+    "productName": "Audio Cat",
+    "publish": {
+      "provider": "github",
+      "owner": "SEU_USUARIO_GITHUB",
+      "repo": "audio-cat"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "icon.ico"
+    }
+  }
+}

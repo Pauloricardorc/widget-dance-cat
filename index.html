@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gato Mascote</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: transparent;
+            height: 100vh;
+        }
+        
+        .cat {
+            width: 170px;
+            height: 170px;
+            position: relative;
+        }
+        
+        .face {
+            width: 120px;
+            height: 120px;
+            background: #FFB6C1;
+            border-radius: 50%;
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            animation: bounce 2s infinite;
+        }
+        
+        .ear {
+            width: 0;
+            height: 0;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-bottom: 40px solid #FFB6C1;
+            position: absolute;
+        }
+        
+        .ear.left {
+            left: 35px;
+            top: 0;
+            transform: rotate(-30deg);
+        }
+        
+        .ear.right {
+            right: 35px;
+            top: 0;
+            transform: rotate(30deg);
+        }
+        
+        .eye {
+            width: 15px;
+            height: 20px;
+            background: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+        }
+        
+        .eye.left {
+            left: 50px;
+        }
+        
+        .eye.right {
+            right: 50px;
+        }
+        
+        .nose {
+            width: 10px;
+            height: 10px;
+            background: #d12c6a;
+            border-radius: 50%;
+            position: absolute;
+            top: 90px;
+            left: 70px;
+            z-index: 2;
+        }
+        
+        .mouth {
+            width: 40px;
+            height: 25px;
+            border-bottom: 3px solid #000;
+            border-right: 3px solid #000;
+            border-radius: 0 0 40px 40px;
+            position: absolute;
+            top: 100px;
+            left: 75px;
+            background: transparent;
+            z-index: 1;
+        }
+        
+        .mouth-line {
+            width: 20px;
+            height: 0;
+            border-top: 3px solid #000;
+            position: absolute;
+            top: 112px;
+            left: 60px;
+            z-index: 1;
+        }
+        
+        .whisker {
+            width: 60px;
+            height: 2px;
+            background: #000;
+            position: absolute;
+            top: 105px;
+            left: 75px;
+        }
+        
+        .whisker.left {
+            transform: rotate(-10deg) translateX(-60px);
+        }
+        
+        .whisker.right {
+            transform: rotate(10deg) translateX(60px);
+        }
+        
+        @keyframes bounce {
+            0%   { transform: scale(1) translateY(0); }
+            20%  { transform: scale(1.1, 0.9) translateY(-8px); }
+            40%  { transform: scale(0.95, 1.05) translateY(-16px); }
+            60%  { transform: scale(1.05, 0.95) translateY(-8px); }
+            80%  { transform: scale(0.98, 1.02) translateY(-2px); }
+            100% { transform: scale(1) translateY(0); }
+        }
+    </style>
+</head>
+<body style="margin:0; background:transparent; height:100vh; width:100vw; overflow:hidden;">
+    <div id="cat-container" style="position: fixed; right: 0; bottom: 0; margin: 0; width: 140px; height: 160px; z-index: 1;">
+        <img id="cat-gif" src="gatinho.gif" alt="Gato Mascote"
+             style="width: 180px; height: 180px; background: transparent; cursor: pointer;" />
+        <div id="balao-fala" style="
+            display: none;
+            position: absolute;
+            bottom: 140px;
+            right: 18px;
+            background: #fff;
+            color: #222;
+            border: 2px solid #222;
+            border-radius: 12px;
+            padding: 7px 12px 10px 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.13);
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            max-width: 160px;
+            word-break: break-word;
+            z-index: 2;
+            position: absolute;
+        ">
+            <span id="balao-texto"></span>
+            <svg width="22" height="14" viewBox="0 0 22 14" style="position: absolute; bottom: -13px; right: 18px;" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="0,0 22,0 11,14" style="fill:#fff;stroke:#222;stroke-width:2;" />
+            </svg>
+        </div>
+    </div>
+    <audio id="meow-audio" src="meow.mp3"></audio>
+    <script>
+    const frases = [
+      "Miau! 😺",
+      "Estou com fome!",
+      "Vamos brincar?",
+      "Que dia bonito!",
+      "Quero carinho!",
+      "Zzz... hora da soneca!"
+    ];
+    const catGif = document.getElementById('cat-gif');
+    const balao = document.getElementById('balao-fala');
+    const balaoTexto = document.getElementById('balao-texto');
+    const meowAudio = document.getElementById('meow-audio');
+    let balaoTimeout = null;
+
+    catGif.addEventListener('click', () => {
+      // Sorteia uma frase
+      const frase = frases[Math.floor(Math.random() * frases.length)];
+      balaoTexto.textContent = frase;
+      balao.style.display = 'block';
+      // Reinicia a animação bounce
+      balao.style.animation = 'none';
+      balao.offsetHeight; // força reflow
+      balao.style.animation = 'bounce 0.6s';
+      // Limpa timeout anterior se existir
+      if (balaoTimeout) clearTimeout(balaoTimeout);
+      // Some após 2,5 segundos
+      balaoTimeout = setTimeout(() => {
+        balao.style.display = 'none';
+        balao.style.animation = 'none';
+      }, 2000);
+      // Toca o som de miado
+      meowAudio.currentTime = 0;
+      meowAudio.play();
+    });
+    </script>
+</body>
+</html> 
